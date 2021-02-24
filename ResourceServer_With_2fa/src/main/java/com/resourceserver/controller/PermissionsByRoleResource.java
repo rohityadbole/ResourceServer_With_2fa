@@ -12,24 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.resourceserver.dao.PermissionsByRoleResourceDAO;
+import com.resourceserver.dao.permissionimpl.PermissionsByRoleResourceDaoImpl;
+import com.resourceserver.service.permission.PermissionsByRoleResourceService;
 
 @RestController
 public class PermissionsByRoleResource {
 
 	@Autowired
-	PermissionsByRoleResourceDAO permissionsByRoleResourceDAO;
+	PermissionsByRoleResourceService permissionsByRoleResource;
 
 	@PreAuthorize("hasAnyRole('view_permissions_by_role')")
 	@RequestMapping(value = "/roles/{id}/permissions", method = RequestMethod.GET)
 	public ResponseEntity<Object> viewPermissionsByRole(@PathVariable("id") String role_id) {
-		return new ResponseEntity<>(permissionsByRoleResourceDAO.getViewPermissionsByRole(role_id), HttpStatus.OK);
+		return new ResponseEntity<>(permissionsByRoleResource.getViewPermissionsByRole(role_id), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAnyRole('assign_permissions_to_role')")
 	@RequestMapping(value = "/roles/{id}/permissions", method = RequestMethod.PUT)
 	public ResponseEntity<Object> assignPermissions2Role(@PathVariable("id") String role_id, @RequestBody ArrayList<String> permissionsList) {
-		permissionsByRoleResourceDAO.assignPermissions2Role(role_id, permissionsList);
+		permissionsByRoleResource.assignPermissions2Role(role_id, permissionsList);
 		return new ResponseEntity<>("Permissions are assigned to role successfully", HttpStatus.OK);
 	}
 		

@@ -1,4 +1,4 @@
-package com.resourceserver.dao;
+package com.resourceserver.dao.userimpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,10 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.resourceserver.dao.user.UserResourceDao;
 import com.resourceserver.model.UserModel;
 
 @Repository
-public class UserResourceDAO {
+public class UserResourceDaoImpl implements UserResourceDao {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;

@@ -1,4 +1,4 @@
-package com.resourceserver.dao;
+package com.resourceserver.dao.permissionimpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class PermissionsByRoleResourceDAO {
+import com.resourceserver.dao.permission.PermissionsByRoleResourceDao;
+
+@Repository("permissionsByRoleResourceDao")
+public class PermissionsByRoleResourceDaoImpl implements PermissionsByRoleResourceDao {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;

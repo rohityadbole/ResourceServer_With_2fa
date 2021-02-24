@@ -1,4 +1,4 @@
-package com.resourceserver.dao;
+package com.resourceserver.dao.roleimpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.resourceserver.dao.role.RolesDao;
 import com.resourceserver.model.UserRole;
 
 @Repository
-public class RolesDAO {
+public class RolesDaoImpl implements RolesDao{
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;

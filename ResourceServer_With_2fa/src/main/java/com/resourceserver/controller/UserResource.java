@@ -13,19 +13,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.resourceserver.config.AccessTokenMapper;
-import com.resourceserver.dao.UserResourceDAO;
+import com.resourceserver.dao.userimpl.UserResourceDaoImpl;
 import com.resourceserver.model.UserModel;
+import com.resourceserver.service.user.UserResourceService;
 
 @RestController
 public class UserResource {
 
 	@Autowired
-	UserResourceDAO userResourceDAO;
+	UserResourceService userResourceService;
 
 	@PreAuthorize("hasAnyRole('view_users')")
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ResponseEntity<Object> getListOfUsers() {
-		return new ResponseEntity<>(userResourceDAO.getListOfUsers(), HttpStatus.OK);
+		return new ResponseEntity<>(userResourceService.getListOfUsers(), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('delete_users')")
@@ -37,11 +38,11 @@ public class UserResource {
 				((OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails()).getDecodedDetails();
 		
 		
-		if(accessTokenMapper.getUser_type().equalsIgnoreCase("administrator") && userResourceDAO.isSuperAdmin(user_id)) {
+		if(accessTokenMapper.getUser_type().equalsIgnoreCase("administrator") && userResourceService.isSuperAdmin(user_id)) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 		
-		userResourceDAO.deleteUser(user_id);
+		userResourceService.deleteUser(user_id);
 		return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
 	}
 
@@ -52,10 +53,10 @@ public class UserResource {
 				((OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails()).getDecodedDetails();
 		
 		
-		if(accessTokenMapper.getUser_type().equalsIgnoreCase("administrator") && userResourceDAO.isSuperAdmin(user_id)) {
+		if(accessTokenMapper.getUser_type().equalsIgnoreCase("administrator") && userResourceService.isSuperAdmin(user_id)) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
-		userResourceDAO.updateUser(user_id, userModel);
+		userResourceService.updateUser(user_id, userModel);
 		return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
 	}
 
@@ -69,7 +70,7 @@ public class UserResource {
 		if(accessTokenMapper.getUser_type().equalsIgnoreCase("administrator") && userModel.getUser_type().equalsIgnoreCase("super_admin")) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
-		userResourceDAO.createUser(userModel);
+		userResourceService.createUser(userModel);
 		return new ResponseEntity<>("User created successfully", HttpStatus.OK);
 	}
 }

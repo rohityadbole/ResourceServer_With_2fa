@@ -10,39 +10,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.resourceserver.dao.RolesDAO;
+import com.resourceserver.dao.roleimpl.RolesDaoImpl;
 import com.resourceserver.model.UserRole;
+import com.resourceserver.service.role.RolesService;
 
 @RestController
 public class RoleResource {
 
 	@Autowired
-	RolesDAO rolesDAO;
+	RolesService rolesservice;
 
 	@PreAuthorize("hasAnyRole('view_role')")
 	@RequestMapping(value = "/roles", method = RequestMethod.GET)
 	public ResponseEntity<Object> getListOfRoles() {
-		return new ResponseEntity<Object>(rolesDAO.getListOfRoles(), HttpStatus.OK);
+		return new ResponseEntity<Object>(rolesservice.getListOfRoles(), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('delete_role')")
 	@RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteRole(@PathVariable("id") String role_id) {
-		rolesDAO.deleteRole(role_id);
+		rolesservice.deleteRole(role_id);
 		return new ResponseEntity<Object>("Role deleted successfully", HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('edit_role')")
 	@RequestMapping(value = "/roles/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Object> deleteRole(@PathVariable("id") String role_id, @RequestBody UserRole role) {
-		rolesDAO.updateRole(role_id, role);
+		rolesservice.updateRole(role_id, role);
 		return new ResponseEntity<Object>("Role updated successfully", HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('create_role')")
 	@RequestMapping(value = "/roles", method = RequestMethod.POST)
 	public ResponseEntity<Object> createRole(@RequestBody UserRole role) {
-		rolesDAO.createRole(role);
+		rolesservice.createRole(role);
 		return new ResponseEntity<Object>("Role created successfully", HttpStatus.OK);
 	}
 }
