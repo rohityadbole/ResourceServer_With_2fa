@@ -9,8 +9,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Algo_Client_Details</name>
-	<description>Demo project for Spring Boot</description>
+	<name>ResourceServer_With_2fa</name>
+	<description>ResourceServer_With_2fa</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
